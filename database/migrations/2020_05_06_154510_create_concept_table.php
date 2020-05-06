@@ -21,7 +21,7 @@ class CreateConceptTable extends Migration
             $table->string('vocabulary_id', 15)->index();
             $table->string('concept_code', 15)->index();
             $table->string('vocabulary_id_concept_code', 15 * 2)->virtualAs($this->concatKey())->index();
-            $table->string('concept_name');
+            $table->string('concept_name', 550);
             $table->boolean('standard_concept')->default(false)->index();
             $table->string('concept_name_hash', 32)->virtualAs('MD5(concept_name)');
             $table->boolean('score')->default(false)->index();

@@ -18,11 +18,13 @@ class CreateMetadataTable extends Migration
             $table->id();
             $table->string('concept_id', 15 * 2)->index();
             $table->string('name', 30)->index();
-            $table->string('value', 500);
+            $table->text('value');
             $table->date('start_date')->index();
             $table->date('end_date')->index()->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+
+            $table->unique(['concept_id', 'name']);
         });
     }
 
