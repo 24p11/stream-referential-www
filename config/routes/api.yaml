@@ -1,3 +1,0 @@
-referential:
-  path: /referential/{type}
-  controller: App\Controller\Api\ReferentialController::referential
