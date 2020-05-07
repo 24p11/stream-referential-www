@@ -14,3 +14,4 @@ yarn-error.log
 /storage
 /*.lock
 /*.json
+/public

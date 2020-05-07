@@ -11,6 +11,7 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
+mix.js('resources/js/app.js', 'public/js')//.extract(['vue'])
+    .js('resources/js/admin/details/details.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
     .copyDirectory('resources/img', 'public/img');
