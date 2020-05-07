@@ -20,11 +20,11 @@ class ReferentialController extends Controller
         $searchingWords = array_filter($searchingWords);
         $searching = implode(' ', $searchingWords);
 
-
-        $concepts = Concept::where('vocabulary_id', $referential)
+        $concepts = Concept::with('metadata')
+            ->where('vocabulary_id', $referential)
             ->whereRaw("MATCH (concept_code, concept_name) AGAINST (? IN BOOLEAN MODE)", $searching)
             ->orderBy('score', 'desc')
-            ->take(250)
+            ->take(100)
             ->get();
 
         return ConceptResource::collection($concepts);
