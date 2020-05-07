@@ -21,7 +21,13 @@ Route::prefix('admin')->group(function () {
     Route::permanentRedirect('/', '/admin/referential');
 
     Route::get('/referential', function () {
-        return view('admin.index');
+        return view('admin.referential.index');
     });
+
+    Route::get('/list', 'Admin\ReferentialController@list');
+
+    Route::get('/manage/{referential}', 'Admin\ReferentialController@manage');
+    Route::get('/edit/{referential}', 'Admin\ReferentialController@edit');
+    Route::get('/details/{referential}', 'Admin\ReferentialController@details');
 });
 
