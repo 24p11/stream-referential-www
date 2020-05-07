@@ -1,13 +1,14 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+@extends('layouts.base')
 
-</body>
-</html>
+@section('content')
+    <br>
+    <div class="jumbotron jumbotron-fluid text-center">
+        <div class="container">
+            <h1>Référentiel APHP</h1>
+            <img src="{{ asset('img/logo.png') }}" alt="Referential logo">
+            <div>
+                <a href="{{ url('admin') }}">Administration des référentiels</a>
+            </div>
+        </div>
+    </div>
+@endsection

@@ -1,10 +1,10 @@
 <?php
 
+use App\Util\KeyUtils;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use App\Util\KeyUtils;
 
 class CreateConceptTable extends Migration
 {
@@ -32,6 +32,12 @@ class CreateConceptTable extends Migration
 
             $table->unique(['vocabulary_id', 'concept_code', 'concept_name_hash']);
         });
+        DB::statement('ALTER TABLE concept ADD FULLTEXT INDEX concept_code_concept_name (concept_code, concept_name);');
+    }
+
+    private function concatKey()
+    {
+        return sprintf("CONCAT(vocabulary_id, '%s', concept_code)", KeyUtils::SEPARATOR);
     }
 
     /**
@@ -42,10 +48,5 @@ class CreateConceptTable extends Migration
     public function down()
     {
         Schema::dropIfExists('concept');
-    }
-
-    private function concatKey()
-    {
-        return sprintf("CONCAT(vocabulary_id, '%s', concept_code)", KeyUtils::SEPARATOR);
     }
 }

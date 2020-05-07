@@ -1,6 +1,5 @@
 <?php
-use App\Concept;
-use App\Http\Resources\Concept as ConceptResource;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,9 +17,11 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::prefix('admin')->group(function () {
+    Route::permanentRedirect('/', '/admin/referential');
 
-Route::get('concept', 'ConceptController@index');
-
-Route::get('/api', function () {
-    return ConceptResource::collection(Concept::all());
+    Route::get('/referential', function () {
+        return view('admin.index');
+    });
 });
+
