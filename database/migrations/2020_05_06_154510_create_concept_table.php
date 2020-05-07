@@ -27,8 +27,8 @@ class CreateConceptTable extends Migration
             $table->boolean('score')->default(false)->index();
             $table->date('start_date')->index();
             $table->date('end_date')->index()->nullable();
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamp('created_at')->useCurrent()->index();
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))->index();
 
             $table->unique(['vocabulary_id', 'concept_code', 'concept_name_hash']);
         });

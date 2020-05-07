@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMetadataTable extends Migration
+class CreateVocabulariesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,17 +14,11 @@ class CreateMetadataTable extends Migration
      */
     public function up()
     {
-        Schema::create('metadata', function (Blueprint $table) {
-            $table->id();
-            $table->string('concept_id', 15 * 2)->index();
-            $table->string('name', 30)->index();
-            $table->text('value');
-            $table->date('start_date')->index();
-            $table->date('end_date')->index()->nullable();
+        Schema::create('vocabularies', function (Blueprint $table) {
+            $table->string('id')->primary();
+            $table->text('description')->nullable();
             $table->timestamp('created_at')->useCurrent()->index();
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))->index();
-
-            $table->unique(['concept_id', 'name']);
         });
     }
 
@@ -35,6 +29,6 @@ class CreateMetadataTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('metadata');
+        Schema::dropIfExists('vocabularies');
     }
 }
