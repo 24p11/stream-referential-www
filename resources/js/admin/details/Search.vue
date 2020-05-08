@@ -50,7 +50,7 @@
     }
 
     function search($this) {
-        axios.get(referentialApiVersion, {
+        axios.get(referentialApiUrl, {
             params: {
                 search: $this.searchTerm
             }
