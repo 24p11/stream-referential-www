@@ -24,10 +24,11 @@ Route::prefix('admin')->group(function () {
         return view('admin.referential.index');
     });
 
-    Route::get('/list', 'Admin\ReferentialController@list');
+    Route::get('/list', 'Admin\ReferentialController@list')->name('admin.list');
 
-    Route::get('/manage/{referential}', 'Admin\ReferentialController@manage');
+    Route::get('/manage/{referential}', 'Admin\ReferentialController@manage')->name('admin.manage');
     Route::get('/edit/{referential}', 'Admin\ReferentialController@edit');
+    Route::put('/edit/{referential}', 'Admin\ReferentialController@edit');
     Route::get('/details/{referential}', 'Admin\ReferentialController@details');
 });
 

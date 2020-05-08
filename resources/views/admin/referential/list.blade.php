@@ -1,16 +1,14 @@
 @extends('layouts.base_admin')
 
 @section('content')
-    <a class="btn btn-outline-primary btn-sm" role="button" aria-pressed="true"
-       href="path('admin_referential_add') ">
-        Ajouter un nouveau référentiel +
-    </a>
-    <br>
-    <br>
     <div class="list-group">
-        @if($vocabularies)
+        @if($vocabularies->isNotEmpty())
             <span class="list-group-item active text-center">
                 Référentiels
+            </span>
+        @else
+            <span class="list-group-item text-center text-danger">
+                Aucun référentiels
             </span>
         @endif
         @foreach($vocabularies as $vocabulary)

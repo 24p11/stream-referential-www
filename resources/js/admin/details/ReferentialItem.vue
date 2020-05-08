@@ -1,16 +1,16 @@
 <template>
     <div style="display: contents">
         <tr>
-            <th scope="row">{{concept.id}}</th>
-            <td>{{concept.concept_code}}</td>
-            <td>{{concept.concept_name}}</td>
-            <td>{{concept.start_date}}</td>
-            <td>{{concept.end_date}}</td>
-            <td @click="display"><p :class="hasMetadata">Afficher</p></td>
+            <th scope="row">{{ concept.id }}</th>
+            <td>{{ concept.concept_code }}</td>
+            <td>{{ concept.concept_name }}</td>
+            <td>{{ concept.start_date | moment('DD/MM/YYYY') }}</td>
+            <td>{{ concept.end_date | moment('DD/MM/YYYY') }}</td>
+            <td @click="display"><p :class="hasMetadata">{{ this.show ? 'Masquer': 'Afficher' }}</p></td>
         </tr>
         <tr v-show="show">
             <td class="no-padding" colspan="6">
-                <pre><code class="json">{{concept.metadata}}</code></pre>
+                <pre><code class="json">{{ concept.metadata }}</code></pre>
             </td>
         </tr>
     </div>
