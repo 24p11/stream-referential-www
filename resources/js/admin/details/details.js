@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import App from './App'
 
 new Vue({
@@ -6,6 +5,3 @@ new Vue({
     template: '<App/>',
     components: {App}
 });
-Vue.use(require('vue-moment'));
-
-

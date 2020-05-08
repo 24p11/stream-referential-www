@@ -1,7 +1,10 @@
 <template>
     <div style="display: contents">
         <tr>
-            <th scope="row">{{ concept.id }}</th>
+            <th scope="row">
+                <span class="badge badge-light">{{ concept.score }}</span>
+                <span class="badge badge-warning">s</span>
+            </th>
             <td>{{ concept.concept_code }}</td>
             <td>{{ concept.concept_name }}</td>
             <td>{{ concept.start_date | moment('DD/MM/YYYY') }}</td>
