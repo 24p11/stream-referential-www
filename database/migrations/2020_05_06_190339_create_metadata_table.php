@@ -19,6 +19,7 @@ class CreateMetadataTable extends Migration
             $table->string('concept_id', 15 * 2)->index();
             $table->string('name', 30)->index();
             $table->text('value');
+            $table->boolean('standard_concept')->default(false)->index();
             $table->date('start_date')->index();
             $table->date('end_date')->index()->nullable();
             $table->timestamp('created_at')->useCurrent()->index();
