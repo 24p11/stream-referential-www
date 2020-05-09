@@ -5,44 +5,60 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Concept as ConceptResource;
 use App\Model\Concept;
+use App\Service\FullTextSearchService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Transliterator;
 
 class ReferentialController extends Controller
 {
+    private $fullTextSearchService;
+
+    public function __construct(FullTextSearchService $fullTextSearchService)
+    {
+        $this->fullTextSearchService = $fullTextSearchService;
+    }
+
     public function referential(Request $request, $referential)
     {
         $search = $request->get('search');
-        $transliterator = Transliterator::create('NFD; [:Nonspacing Mark:] Remove; NFC;');
-        $searchingWords = array_map(function ($word) use ($transliterator) {
-            return $this->fullTextExpression($word, $transliterator);
-        }, preg_split("/\s|, /", $search));
-        $searchingWords = array_filter($searchingWords);
-        $searching = implode(' ', $searchingWords);
-
-        $concepts = Concept::with('metadata')
-            ->where('vocabulary_id', $referential)
-            ->whereRaw("MATCH (concept_code, concept_name) AGAINST (? IN BOOLEAN MODE)", $searching)
-            ->orderBy('score', 'desc')
-            ->take(100)
-            ->get();
-
-        return ConceptResource::collection($concepts);
+        if ($search) {
+            $searching = $this->fullTextSearchService->prepareSearchingWords($search);
+            $concepts = $this->concepts($referential, $searching, $request)
+                ->take(100)
+                ->get();
+            return ConceptResource::collection($concepts);
+        } else {
+            return [];
+        }
     }
 
-    private function fullTextExpression(string $word, Transliterator $transliterator): ?string
+    private function concepts($referential, $searching, Request $request): Builder
     {
-        $word = addslashes(mb_strtolower($transliterator->transliterate($word)));
-        if (false === empty($word)) {
-            if (1 === preg_match('/[+\-~*]/', $word)) {
-                return '+"' . $word . '" ';
-            } else if (strpos($word, "'")) {
-                return '+(' . $word . '*) ';
-            } else {
-                return '+' . $word . '* ';
-            }
-        }
+        $startDate = $request->get('start_date');
+        $endDate = $request->get('end_date');
 
-        return null;
+        $query = Concept::with(['metadata' => $this->metadataBetween($startDate, $endDate)])
+            ->where('vocabulary_id', $referential)
+            ->whereRaw("MATCH (concept_code, concept_name) AGAINST (? IN BOOLEAN MODE)", $searching)
+            ->orderBy('score', 'desc');
+
+        $this->dateCondition($query, $startDate, $endDate);
+
+        return $query;
+    }
+
+    private function metadataBetween($startDate, $endDate): \Closure
+    {
+        return function ($query) use ($startDate, $endDate) {
+            return $this->dateCondition($query, $startDate, $endDate);
+        };
+    }
+
+    private function dateCondition($query, $startDate, $endDate)
+    {
+        $currentDate = date('Y-m-d');
+        return $query
+            ->where('start_date', '<=', $startDate ?? $currentDate)
+            ->whereRaw('IFNULL(end_date, CURDATE()) >= ?', $endDate ?? $currentDate);
     }
 }
