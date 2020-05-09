@@ -17,7 +17,7 @@ class FullTextSearchService
     {
         $searchingWords = array_map(function ($word) {
             return $this->fullTextExpression($word);
-        }, preg_split("/\s|, /", $search));
+        }, preg_split("/\s|,/", $search));
         $searchingWords = array_filter($searchingWords);
 
         return implode(' ', $searchingWords);
