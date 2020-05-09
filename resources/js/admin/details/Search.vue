@@ -2,12 +2,15 @@
     <div class="form-group">
         <input
             :placeholder="placeholder"
-            @input="search"
+            :value='searchTerm'
+            @input='evt => {
+                searchTerm = evt.target.value
+                search()
+            }'
             autofocus
             class="form-control"
             required="required"
-            type="search"
-            v-model="searchTerm">
+            type="search">
         <br>
         <Result :concepts="concepts" :noResult="noResult" :perform-search="performSearch"/>
     </div>
@@ -21,7 +24,7 @@
 
     export default {
         created() {
-            this.searchAction = debounce(search, 200)
+            this.searchAction = debounce(search, 700)
         },
         data: () => {
             return {
