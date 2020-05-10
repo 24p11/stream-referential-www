@@ -14,13 +14,12 @@ class Metadata extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'concept_id' => $this->concept_id,
-            'name' => $this->name,
-            'value' => $this->value,
+        $metadata = $this->content->merge([
             'standard_concept' => $this->standard_concept,
+            'metadata_type' => $this->metadata_type,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
-        ];
+        ]);
+        return $metadata->all();
     }
 }

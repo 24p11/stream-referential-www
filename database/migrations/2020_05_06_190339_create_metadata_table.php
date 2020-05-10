@@ -17,9 +17,11 @@ class CreateMetadataTable extends Migration
         Schema::create('metadata', function (Blueprint $table) {
             $table->id();
             $table->string('concept_id', 15 * 2)->index();
-            $table->string('name', 30)->index();
-            $table->text('value');
+            $table->json('content');
+            $table->string('name', 30)->virtualAs(self::jsonContent('name'))->index();
+            $table->string('value', 500)->virtualAs(self::jsonContent('value'))->index();
             $table->boolean('standard_concept')->default(false)->index();
+            $table->enum('metadata_type', ['DEFAULT', 'LIST'])->default('DEFAULT');
             $table->date('start_date')->index();
             $table->date('end_date')->index()->nullable();
             $table->timestamp('created_at')->useCurrent()->index();
@@ -27,6 +29,11 @@ class CreateMetadataTable extends Migration
 
             $table->unique(['concept_id', 'name']);
         });
+    }
+
+    private static function jsonContent($column)
+    {
+        return "json_unquote(json_extract(`content`,'$.$column'))";
     }
 
     /**

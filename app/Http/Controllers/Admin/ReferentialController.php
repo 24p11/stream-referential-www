@@ -10,7 +10,6 @@ class ReferentialController extends Controller
 {
     public function list()
     {
-        // Vocabulary::all()->dump();
         return view('admin.referential.list', ['vocabularies' => Vocabulary::all()]);
     }
 
