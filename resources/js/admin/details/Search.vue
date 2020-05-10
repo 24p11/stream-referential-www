@@ -10,8 +10,14 @@
                 required="required"
                 type="search">
         </div>
-        <span class="badge badge-light size" v-if="conceptsCount > -1">[{{conceptsCount}}]</span>
-        <Result :concepts="concepts" :noResult="noResult" :perform-search="performSearch"/>
+
+        <div class="infos">
+            <span class="badge badge-light" v-show="conceptsCount > -1">[{{conceptsCount}}]</span>
+            <span class="badge badge-light" span v-show="performSearch">Recherche en cours...</span>
+            <span class="badge badge-warning" v-show="noResult">Pas de résultats</span>
+        </div>
+
+        <Result :concepts="concepts"/>
     </div>
 </template>
 
@@ -69,8 +75,9 @@
 </script>
 
 <style>
-    span.size {
-        font-size: .60rem;
+    div.infos {
+        margin: 2px 0 5px 0;
+        min-height: 24px;
     }
 
     .form-group {

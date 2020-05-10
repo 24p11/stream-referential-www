@@ -11,12 +11,6 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-if="performSearch">
-            <td><span class="badge badge-info">Recherche en cours</span></td>
-        </tr>
-        <tr v-if="noResult">
-            <td><span class="badge badge-warning">Pas de résultats</span></td>
-        </tr>
         <template v-for="concept in concepts">
             <ReferentialItem :concept="concept"/>
         </template>
@@ -28,7 +22,7 @@
     import ReferentialItem from "./ReferentialItem";
 
     export default {
-        props: ['concepts', 'performSearch', 'noResult'],
+        props: ['concepts'],
         components: {
             ReferentialItem
         }
