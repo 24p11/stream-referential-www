@@ -44,7 +44,7 @@ class ReferentialController extends BaseApiV1Controller
      *     @OA\Parameter(
      *         name="start_date",
      *         in="query",
-     *         description="start date",
+     *         description="start date YYYY-MM-DD",
      *         required=false,
      *         @OA\Schema(
      *          type="string",
@@ -55,7 +55,7 @@ class ReferentialController extends BaseApiV1Controller
      *     @OA\Parameter(
      *         name="end_date",
      *         in="query",
-     *         description="end date",
+     *         description="end date YYYY-MM-DD",
      *         required=false,
      *         @OA\Schema(
      *          type="string",
