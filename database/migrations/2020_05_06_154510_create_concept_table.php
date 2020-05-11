@@ -32,7 +32,7 @@ class CreateConceptTable extends Migration
 
             $table->unique(['vocabulary_id', 'concept_code', 'concept_name_hash']);
         });
-        DB::statement('ALTER TABLE concept ADD FULLTEXT INDEX concept_code_concept_name (concept_code, concept_name);');
+        DB::statement('ALTER TABLE concept ADD FULLTEXT INDEX concept_code_concept_name_index (concept_code, concept_name);');
     }
 
     private function concatKey()

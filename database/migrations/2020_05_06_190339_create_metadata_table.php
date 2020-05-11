@@ -19,7 +19,7 @@ class CreateMetadataTable extends Migration
             $table->string('concept_id', 15 * 2)->index();
             $table->json('content');
             $table->string('name', 30)->virtualAs(self::jsonContent('name'))->index();
-            $table->string('value', 500)->virtualAs(self::jsonContent('value'))->index();
+            $table->text('value')->storedAs(self::jsonContent('value'));
             $table->boolean('standard_concept')->default(false)->index();
             $table->enum('metadata_type', ['DEFAULT', 'LIST'])->default('DEFAULT');
             $table->date('start_date')->index();
@@ -29,6 +29,7 @@ class CreateMetadataTable extends Migration
 
             $table->unique(['concept_id', 'name']);
         });
+        DB::statement('CREATE INDEX metadata_value_index ON metadata (value(100));');
     }
 
     private static function jsonContent($column)
