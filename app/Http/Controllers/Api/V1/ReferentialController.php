@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\Concept as ConceptResource;
 use App\Model\Concept;
 use App\Service\FullTextSearchService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
-class ReferentialController extends Controller
+class ReferentialController extends BaseApiV1Controller
 {
     private $fullTextSearchService;
 
@@ -18,6 +17,62 @@ class ReferentialController extends Controller
         $this->fullTextSearchService = $fullTextSearchService;
     }
 
+    /**
+     * @OA\Get(
+     *   path="/referential/{referential}",
+     *   tags={"Referential"},
+     *   @OA\Parameter(
+     *         name="referential",
+     *         in="path",
+     *         description="CIM10, CCAM...",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         ),
+     *         style="form"
+     *     ),
+     *     @OA\Parameter(
+     *         name="search",
+     *         in="query",
+     *         description="search term",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         ),
+     *         style="form"
+     *     ),
+     *     @OA\Parameter(
+     *         name="start_date",
+     *         in="query",
+     *         description="start date",
+     *         required=false,
+     *         @OA\Schema(
+     *          type="string",
+     *          format="date-time",
+     *         ),
+     *         style="form"
+     *     ),
+     *     @OA\Parameter(
+     *         name="end_date",
+     *         in="query",
+     *         description="end date",
+     *         required=false,
+     *         @OA\Schema(
+     *          type="string",
+     *          format="date-time",
+     *         ),
+     *         style="form"
+     *     ),
+     *   summary="Allow to perform search on concept table in concept_code and concept_name columns",
+     *   @OA\Response(response=200, description="successful operation")
+     * )
+     *
+     * Display a listing of the resource.
+     *
+     * @param Request $request
+     * @param $referential
+     * @return array|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function referential(Request $request, $referential)
     {
         $search = $request->get('search');
@@ -58,7 +113,7 @@ class ReferentialController extends Controller
     {
         $currentDate = date('Y-m-d');
         return $query
-            ->where('start_date', '<=', $startDate ?? $currentDate)
-            ->whereRaw('IFNULL(end_date, CURDATE()) >= ?', $endDate ?? $currentDate);
+            ->where('start_date', '>=', $startDate ?? $currentDate)
+            ->whereRaw('IFNULL(end_date, CURDATE()) <= ?', $endDate ?? $currentDate);
     }
 }
