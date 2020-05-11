@@ -42,20 +42,9 @@ class ReferentialController extends BaseApiV1Controller
      *         style="form"
      *     ),
      *     @OA\Parameter(
-     *         name="start_date",
+     *         name="date_validity",
      *         in="query",
-     *         description="start date YYYY-MM-DD",
-     *         required=false,
-     *         @OA\Schema(
-     *          type="string",
-     *          format="date-time",
-     *         ),
-     *         style="form"
-     *     ),
-     *     @OA\Parameter(
-     *         name="end_date",
-     *         in="query",
-     *         description="end date YYYY-MM-DD",
+     *         description="YYYY-MM-DD if provided will check this date is between start_date and end_date interval",
      *         required=false,
      *         @OA\Schema(
      *          type="string",
@@ -89,31 +78,32 @@ class ReferentialController extends BaseApiV1Controller
 
     private function concepts($referential, $searching, Request $request): Builder
     {
-        $startDate = $request->get('start_date');
-        $endDate = $request->get('end_date');
+        $dateValidity = $request->get('date_validity');
 
-        $query = Concept::with(['metadata' => $this->metadataBetween($startDate, $endDate)])
+        $query = Concept::with(['metadata' => $this->metadataBetween($dateValidity)])
             ->where('vocabulary_id', $referential)
             ->whereRaw("MATCH (concept_code, concept_name) AGAINST (? IN BOOLEAN MODE)", $searching)
             ->orderBy('score', 'desc');
 
-        $this->dateCondition($query, $startDate, $endDate);
+        $this->dateCondition($query, $dateValidity);
 
         return $query;
     }
 
-    private function metadataBetween($startDate, $endDate): \Closure
+    private function metadataBetween($dateValidity): \Closure
     {
-        return function ($query) use ($startDate, $endDate) {
-            return $this->dateCondition($query, $startDate, $endDate);
+        return function ($query) use ($dateValidity) {
+            return $this->dateCondition($query, $dateValidity);
         };
     }
 
-    private function dateCondition($query, $startDate, $endDate)
+    private function dateCondition($query, $dateValidity)
     {
-        $currentDate = date('Y-m-d');
-        return $query
-            ->where('start_date', '>=', $startDate ?? $currentDate)
-            ->whereRaw('IFNULL(end_date, CURDATE()) <= ?', $endDate ?? $currentDate);
+        if ($dateValidity) {
+            return $query->whereRaw('? BETWEEN start_date AND IFNULL(end_date, CURDATE() + INTERVAL 1000 YEAR)', $dateValidity);
+        } else {
+            return $query;
+        }
+
     }
 }
