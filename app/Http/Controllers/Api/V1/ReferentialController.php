@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 class ReferentialController extends BaseApiV1Controller
 {
     private $fullTextSearchService;
+    private $request;
+    private $referential;
 
     public function __construct(FullTextSearchService $fullTextSearchService)
     {
@@ -64,10 +66,13 @@ class ReferentialController extends BaseApiV1Controller
      */
     public function referential(Request $request, $referential)
     {
+        $this->request = $request;
+        $this->referential = $referential;
+
         $search = $request->get('search');
         if ($search) {
             $searching = $this->fullTextSearchService->prepareSearchingWords($search);
-            $concepts = $this->concepts($referential, $searching, $request)
+            $concepts = $this->concepts($searching)
                 ->take(100)
                 ->get();
             return ConceptResource::collection($concepts);
@@ -76,34 +81,32 @@ class ReferentialController extends BaseApiV1Controller
         }
     }
 
-    private function concepts($referential, $searching, Request $request): Builder
+    private function concepts($searching): Builder
     {
-        $dateValidity = $request->get('date_validity');
-
-        $query = Concept::with(['metadata' => $this->metadataBetween($dateValidity)])
-            ->where('vocabulary_id', $referential)
+        $query = Concept::with(['metadata' => $this->metadataBetween()])
+            ->where('vocabulary_id', $this->referential)
             ->whereRaw("MATCH (concept_code, concept_name) AGAINST (? IN BOOLEAN MODE)", $searching)
             ->orderBy('score', 'desc');
 
-        $this->dateCondition($query, $dateValidity);
+        $this->dateCondition($query);
 
         return $query;
     }
 
-    private function metadataBetween($dateValidity): \Closure
+    private function metadataBetween(): \Closure
     {
-        return function ($query) use ($dateValidity) {
-            return $this->dateCondition($query, $dateValidity);
+        return function ($query) {
+            $this->dateCondition($query);
         };
     }
 
-    private function dateCondition($query, $dateValidity)
+    private function dateCondition($query)
     {
+        $dateValidity = $this->request->get('date_validity');
         if ($dateValidity) {
-            return $query->whereRaw('? BETWEEN start_date AND IFNULL(end_date, CURDATE() + INTERVAL 1000 YEAR)', $dateValidity);
+            $query->whereRaw('? BETWEEN start_date AND IFNULL(end_date, CURDATE() + INTERVAL 1000 YEAR)', $dateValidity);
         } else {
-            return $query;
+            $query;
         }
-
     }
 }
