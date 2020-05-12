@@ -21,13 +21,13 @@ class CreateMetadataTable extends Migration
             $table->string('name', 30)->virtualAs(self::jsonContent('name'))->index();
             $table->text('value')->storedAs(self::jsonContent('value'));
             $table->boolean('standard_concept')->default(false)->index();
-            $table->enum('metadata_type', ['DEFAULT', 'LIST'])->default('DEFAULT');
+            $table->string('value_hash', 32)->virtualAs('MD5(value)');
             $table->date('start_date')->index();
             $table->date('end_date')->index()->nullable();
             $table->timestamp('created_at')->useCurrent()->index();
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))->index();
 
-            $table->unique(['concept_id', 'name']);
+            $table->unique(['concept_id', 'name', 'value_hash']);
         });
         DB::statement('CREATE INDEX metadata_value_index ON metadata (value(100));');
     }

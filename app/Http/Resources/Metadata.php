@@ -15,8 +15,8 @@ class Metadata extends JsonResource
     public function toArray($request)
     {
         $metadata = $this->content->merge([
+            'concept_id' => $this->concept_id,
             'standard_concept' => $this->standard_concept,
-            'metadata_type' => $this->metadata_type,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
         ]);

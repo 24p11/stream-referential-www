@@ -10,6 +10,6 @@ class Metadata extends BaseModel
 
     public function concept()
     {
-        return $this->belongsTo(Concept::class);
+        return $this->belongsTo(Concept::class, 'concept_id', 'vocabulary_id_concept_code');
     }
 }
