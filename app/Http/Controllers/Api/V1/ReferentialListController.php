@@ -16,7 +16,7 @@ class ReferentialListController extends BaseApiV1Controller
 
     /**
      * @OA\Get(
-     *   path="/list/{referential}",
+     *   path="/referential/list/{referential}",
      *   tags={"Referential"},
      *   @OA\Parameter(
      *         name="referential",
