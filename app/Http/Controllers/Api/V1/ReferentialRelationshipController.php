@@ -21,7 +21,7 @@ class ReferentialRelationshipController extends BaseApiV1Controller
      *     @OA\Parameter(
      *         name="referential",
      *         in="path",
-     *         description="referential the first referential",
+     *         description="CIM10, CCAM, GHM, DMI...",
      *         required=true,
      *         @OA\Schema(
      *             type="string"

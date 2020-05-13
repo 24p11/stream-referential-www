@@ -26,7 +26,7 @@ class ReferentialController extends BaseApiV1Controller
      *   @OA\Parameter(
      *         name="referential",
      *         in="path",
-     *         description="CIM10, CCAM...",
+     *         description="CIM10, CCAM, GHM, DMI...",
      *         required=true,
      *         @OA\Schema(
      *             type="string"
