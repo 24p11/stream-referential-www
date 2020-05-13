@@ -11,6 +11,40 @@ class MetadataDictionaryController
 {
     /**
      * @OA\Get(
+     *   path="/referential/metadata/dictionary",
+     *   tags={"Referential"},
+     *   summary="List of all metadata dictionary",
+     *   @OA\Parameter(
+     *         name="date_validity",
+     *         in="query",
+     *         description="YYYY-MM-DD if provided will check this date is between start_date and end_date interval",
+     *         required=false,
+     *         @OA\Schema(
+     *          type="string",
+     *          format="date-time",
+     *         ),
+     *         style="form"
+     *     ),
+     *   @OA\Response(response=200, description="successful operation")
+     * )
+     *
+     * Display a listing of the resource.
+     *
+     * @return array|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function dictionaries(Request $request)
+    {
+        $dateValidity = $request->get('date_validity');
+        if ($dateValidity) {
+            return MetadataDictionary::whereRaw('? BETWEEN start_date AND IFNULL(end_date, CURDATE() + INTERVAL 1000 YEAR)', $dateValidity)
+                ->get();
+        } else {
+            return MetadataDictionary::all();
+        }
+    }
+
+    /**
+     * @OA\Get(
      *   path="/referential/metadata/dictionary/{referential}",
      *   tags={"Referential"},
      *   @OA\Parameter(
@@ -23,6 +57,17 @@ class MetadataDictionaryController
      *         ),
      *         style="form"
      *     ),
+     *     @OA\Parameter(
+     *         name="date_validity",
+     *         in="query",
+     *         description="YYYY-MM-DD if provided will check this date is between start_date and end_date interval",
+     *         required=false,
+     *         @OA\Schema(
+     *          type="string",
+     *          format="date-time",
+     *         ),
+     *         style="form"
+     *     ),
      *   summary="Return metadata dictionary",
      *   @OA\Response(response=200, description="successful operation")
      * )
@@ -32,9 +77,16 @@ class MetadataDictionaryController
      * @param $referential
      * @return array|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function dictionary($referential)
+    public function dictionary(Request $request, $referential)
     {
-        return MetadataDictionary::where('vocabulary_id', $referential)->get();
+        $dateValidity = $request->get('date_validity');
+        if ($dateValidity) {
+            return MetadataDictionary::where('vocabulary_id', $referential)
+                ->whereRaw('? BETWEEN start_date AND IFNULL(end_date, CURDATE() + INTERVAL 1000 YEAR)', $dateValidity)
+                ->get();
+        } else {
+            return MetadataDictionary::where('vocabulary_id', $referential)->get();
+        }
     }
 
     /**

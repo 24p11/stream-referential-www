@@ -24,6 +24,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/referential/list/{referential}', 'Api\V1\ReferentialListController@referentialList');
     Route::get('/referential/relationship/{referential}', 'Api\V1\ReferentialRelationshipController@referentialRelationship');
 
+    Route::get('/referential/metadata/dictionary', 'Api\V1\MetadataDictionaryController@dictionaries');
     Route::get('/referential/metadata/dictionary/{referential}', 'Api\V1\MetadataDictionaryController@dictionary');
     Route::put('/referential/metadata_dictionary/{metadata_dictionary}', 'Api\V1\MetadataDictionaryController@update');
 });
