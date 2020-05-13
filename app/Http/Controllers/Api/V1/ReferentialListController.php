@@ -69,7 +69,7 @@ class ReferentialListController extends BaseApiV1Controller
      * @param $referential
      * @return array|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(Request $request, $referential)
+    public function referentialList(Request $request, $referential)
     {
         $this->request = $request;
         $this->referential = $referential;

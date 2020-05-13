@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::prefix('v1')->group(function () {
     Route::get('/referential/{referential}', 'Api\V1\ReferentialController@referential');
-    Route::get('/referential/list/{referential}', 'Api\V1\ReferentialListController@index');
+    Route::get('/referential/list/{referential}', 'Api\V1\ReferentialListController@referentialList');
+    Route::get('/referential/relationship/{referential}', 'Api\V1\ReferentialRelationshipController@referentialRelationship');
 });
 
