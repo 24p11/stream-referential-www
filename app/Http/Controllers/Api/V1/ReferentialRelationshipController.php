@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Resources\ConceptRelationship;
 use App\Model\Concept;
 use App\Util\KeyUtils;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class ReferentialRelationshipController extends BaseApiV1Controller
@@ -21,16 +22,6 @@ class ReferentialRelationshipController extends BaseApiV1Controller
      *         name="referential",
      *         in="path",
      *         description="referential the first referential",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *         style="form"
-     *     ),
-     *     @OA\Parameter(
-     *         name="related_referential",
-     *         in="query",
-     *         description="related_referential the second referential",
      *         required=true,
      *         @OA\Schema(
      *             type="string"
@@ -70,16 +61,43 @@ class ReferentialRelationshipController extends BaseApiV1Controller
      */
     public function referentialRelationship(Request $request, $referential)
     {
+        $this->request = $request;
+        $this->referential = $referential;
 
-        $referentialCode = $request->get('referential_code');
+        $referentialCode = $this->request->get('referential_code');
         if ($referentialCode) {
-            $concept = Concept::with('conceptRelationships')
-                ->where('vocabulary_id', $referential)
-                ->where('vocabulary_id_concept_code', KeyUtils::key($referential, $referentialCode))
-                ->get();
+            $concept = $this->concepts($referentialCode)->get();
             return ConceptRelationship::collection($concept);
         } else {
             return [];
+        }
+    }
+
+    private function concepts($referentialCode): Builder
+    {
+        $query = Concept::with(['conceptRelationships', 'metadata' => $this->metadataBetween()])
+            ->where('vocabulary_id', $this->referential)
+            ->where('vocabulary_id_concept_code', KeyUtils::key($this->referential, $referentialCode));
+
+        $this->dateCondition($query);
+
+        return $query;
+    }
+
+    private function metadataBetween(): \Closure
+    {
+        return function ($query) {
+            $this->dateCondition($query);
+        };
+    }
+
+    private function dateCondition($query)
+    {
+        $dateValidity = $this->request->get('date_validity');
+        if ($dateValidity) {
+            $query->whereRaw('? BETWEEN start_date AND IFNULL(end_date, CURDATE() + INTERVAL 1000 YEAR)', $dateValidity);
+        } else {
+            $query;
         }
     }
 }
