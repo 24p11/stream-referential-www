@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Resources\ConceptRelationship;
 use App\Model\Concept;
+use App\Util\KeyUtils;
 use Illuminate\Http\Request;
 
 class ReferentialRelationshipController extends BaseApiV1Controller
@@ -64,15 +65,17 @@ class ReferentialRelationshipController extends BaseApiV1Controller
      * Display a listing of the resource.
      *
      * @param Request $request
+     * @param $referential
      * @return array|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function referentialRelationship(Request $request, $referential)
     {
+
         $referentialCode = $request->get('referential_code');
         if ($referentialCode) {
             $concept = Concept::with('conceptRelationships')
                 ->where('vocabulary_id', $referential)
-                ->where('vocabulary_id_concept_code', "$referential:$referentialCode")
+                ->where('vocabulary_id_concept_code', KeyUtils::key($referential, $referentialCode))
                 ->get();
             return ConceptRelationship::collection($concept);
         } else {
