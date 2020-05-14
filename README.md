@@ -12,6 +12,8 @@
 
 `git clone https://github.com/24p11/stream-referential-www.git`
 
+`cd stream-referential-www`
+
 ### Configure
 
 Copy and rename `.env.example`  to `env` 
@@ -20,11 +22,17 @@ Configure MySQL database connection parameters
 
 ##### Run following commands:
 
+`npm install`
+
 `npm run production`
+
+---
+
+`composer install`
 
 `php artisan test`
 
-`php artisan migrate to create all table`
+`php artisan migrate` to create all table
 
 Optional `php artisan db:seed` to load some fixtures data
 
