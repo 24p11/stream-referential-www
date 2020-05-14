@@ -14,5 +14,7 @@ yarn-error.log
 /storage
 /*.lock
 /*.json
-/public
+/public/css
+/public/js
+/public/img
 /*.env
