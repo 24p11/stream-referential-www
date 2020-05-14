@@ -33,6 +33,11 @@ class ReferentialController extends Controller
         ]);
     }
 
+    public function metadataDictionary()
+    {
+        return view('admin.referential.metadata_dictionary');
+    }
+
     public function details($referential)
     {
         return view('admin.referential.details');
