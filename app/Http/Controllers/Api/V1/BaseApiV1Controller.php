@@ -18,10 +18,6 @@ use App\Http\Controllers\Controller;
  *      description="Demo API Server"
  * )
  *
- * @OA\Tag(
- *     name="Stream referential",
- *     description="API Endpoints of Projects"
- * )
  */
 class BaseApiV1Controller extends Controller
 {

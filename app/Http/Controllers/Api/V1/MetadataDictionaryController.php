@@ -5,14 +5,16 @@ namespace App\Http\Controllers\Api\V1;
 
 
 use App\Model\MetadataDictionary;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class MetadataDictionaryController
+class MetadataDictionaryController extends BaseApiV1Controller
 {
     /**
      * @OA\Get(
-     *   path="/referential/metadata_dictionary",
-     *   tags={"Referential"},
+     *   path="/metadata_dictionary",
+     *   tags={"Metadata dictionary"},
      *   summary="List of all metadata dictionary",
      *   @OA\Parameter(
      *         name="date_validity",
@@ -30,14 +32,14 @@ class MetadataDictionaryController
      *
      * Display a listing of the resource.
      *
-     * @return array|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @param Request $request
+     * @return array|AnonymousResourceCollection
      */
     public function dictionaries(Request $request)
     {
         $dateValidity = $request->get('date_validity');
         if ($dateValidity) {
-            return MetadataDictionary::whereRaw('? BETWEEN start_date AND IFNULL(end_date, CURDATE() + INTERVAL 1000 YEAR)', $dateValidity)
-                ->get();
+            return MetadataDictionary::whereRaw('? BETWEEN start_date AND IFNULL(end_date, CURDATE() + INTERVAL 1000 YEAR)', $dateValidity)->get();
         } else {
             return MetadataDictionary::all();
         }
@@ -45,8 +47,8 @@ class MetadataDictionaryController
 
     /**
      * @OA\Get(
-     *   path="/referential/metadata_dictionary/{referential}",
-     *   tags={"Referential"},
+     *   path="/metadata_dictionary/{referential}",
+     *   tags={"Metadata dictionary"},
      *   @OA\Parameter(
      *         name="referential",
      *         in="path",
@@ -74,8 +76,9 @@ class MetadataDictionaryController
      *
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @param $referential
-     * @return array|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return array|AnonymousResourceCollection
      */
     public function dictionary(Request $request, $referential)
     {
@@ -91,8 +94,8 @@ class MetadataDictionaryController
 
     /**
      * @OA\Put(
-     *   path="/referential/metadata_dictionary/{metadata_dictionary}",
-     *   tags={"Referential"},
+     *   path="/metadata_dictionary/{metadata_dictionary}",
+     *   tags={"Metadata dictionary"},
      *   @OA\Parameter(
      *         name="metadata_dictionary",
      *         in="path",
@@ -132,7 +135,7 @@ class MetadataDictionaryController
      * )
      * @param Request $request
      * @param MetadataDictionary $metadataDictionary
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function update(Request $request, MetadataDictionary $metadataDictionary)
     {
