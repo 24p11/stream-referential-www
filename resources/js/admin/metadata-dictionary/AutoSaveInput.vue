@@ -4,7 +4,7 @@
            @input="onInput"
            class="form-control form-control-sm"
            type="text"
-           v-on:blur="this.saveAction"/>
+           v-on:blur="this.save"/>
 </template>
 
 <script>
@@ -32,7 +32,7 @@
             onInput(event) {
                 this.inputValue = event.target.value;
                 this.saveAction()
-            },
+            }
         }
     }
 </script>
