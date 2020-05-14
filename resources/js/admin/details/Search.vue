@@ -36,11 +36,14 @@
                 concepts: [],
             }
         },
+        created() {
+            this.searchAction = debounce(this.query, 700)
+        },
         methods: {
             search() {
                 if (this.searchTerm) {
                     this.performSearch = true
-                    debounce(this.query, 700)()
+                    this.searchAction()
                 }
             },
             query() {
