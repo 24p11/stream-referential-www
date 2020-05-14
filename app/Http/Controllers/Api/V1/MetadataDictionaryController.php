@@ -11,7 +11,7 @@ class MetadataDictionaryController
 {
     /**
      * @OA\Get(
-     *   path="/referential/metadata/dictionary",
+     *   path="/referential/metadata_dictionary",
      *   tags={"Referential"},
      *   summary="List of all metadata dictionary",
      *   @OA\Parameter(
@@ -45,7 +45,7 @@ class MetadataDictionaryController
 
     /**
      * @OA\Get(
-     *   path="/referential/metadata/dictionary/{referential}",
+     *   path="/referential/metadata_dictionary/{referential}",
      *   tags={"Referential"},
      *   @OA\Parameter(
      *         name="referential",

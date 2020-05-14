@@ -5,34 +5,33 @@
             <th scope="col">#</th>
             <th scope="col">Variable</th>
             <th scope="col">Déscription</th>
+            <th scope="col">Type</th>
             <th scope="col">Date de début</th>
             <th scope="col">Date de fin</th>
         </tr>
         </thead>
         <tbody>
         <tr v-for="metadataDictionary in metadataDictionaries">
-            <td>
-                #
+            <td><span class="badge badge-primary">{{metadataDictionary.vocabulary_id}}-{{metadataDictionary.id}}</span>
             </td>
             <td>
-                <div class="form-group">
-                    <input :value="metadataDictionary.metadata_name" class="form-control" type="text">
-                </div>
+                {{ metadataDictionary.metadata_name }}
             </td>
             <td>
-                <div class="form-group">
-                    <input :value="metadataDictionary.description" class="form-control" type="text">
-                </div>
+                <AutoSaveInput :metadata-dictionary-id="metadataDictionary.id" :value="metadataDictionary.description"
+                               name="description"/>
             </td>
             <td>
-                <div class="form-group">
-                    <input :value="metadataDictionary.start_date" class="form-control" type="text">
-                </div>
+                <AutoSaveInput :metadata-dictionary-id="metadataDictionary.id" :value="metadataDictionary.type"
+                               name="type"/>
             </td>
             <td>
-                <div class="form-group">
-                    <input :value="metadataDictionary.endate" class="form-control" type="text">
-                </div>
+                <AutoSaveInput :metadata-dictionary-id="metadataDictionary.id" :value="metadataDictionary.start_date"
+                               name="start_date"/>
+            </td>
+            <td>
+                <AutoSaveInput :metadata-dictionary-id="metadataDictionary.id" :value="metadataDictionary.end_date"
+                               name="end_date"/>
             </td>
         </tr>
         </tbody>
@@ -40,6 +39,8 @@
 </template>
 
 <script>
+    import AutoSaveInput from './AutoSaveInput'
+
     const axios = require('axios');
     export default {
         data() {
@@ -51,6 +52,9 @@
             axios
                 .get(apiUrl)
                 .then(response => this.metadataDictionaries = response.data)
+        },
+        components: {
+            AutoSaveInput
         }
     }
 </script>
