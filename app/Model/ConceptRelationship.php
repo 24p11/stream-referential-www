@@ -1,8 +1,6 @@
 <?php
 
-namespace App;
-
-use App\Model\BaseModel;
+namespace App\Model;
 
 class ConceptRelationship extends BaseModel
 {

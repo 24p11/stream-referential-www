@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Service;
+namespace Tests\Unit\Service;
 
 use App\Service\FullTextSearchService;
 use PHPUnit\Framework\TestCase;
