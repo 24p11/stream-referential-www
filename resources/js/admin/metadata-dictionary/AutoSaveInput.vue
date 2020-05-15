@@ -26,8 +26,7 @@
             save() {
                 let metadataDictionaryEntry = {}
                 metadataDictionaryEntry[this.name] = this.inputValue
-                axios
-                    .put(`${baseApiUrl}/${this.metadataDictionaryId}`, metadataDictionaryEntry)
+                axios.put(`${baseApiUrl}/${this.metadataDictionaryId}`, metadataDictionaryEntry)
             },
             onInput(event) {
                 this.inputValue = event.target.value;
