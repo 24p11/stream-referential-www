@@ -8,8 +8,8 @@ COPY . /app
 RUN composer install
 RUN npm install
 RUN npm run production
-#RUN mv /app/.env.example /app/.env
-#RUN php artisan key:generate
+RUN mv /app/.env.example /app/.env
+RUN php artisan key:generate
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.2.1/wait /wait
 RUN chmod +x /wait
 
