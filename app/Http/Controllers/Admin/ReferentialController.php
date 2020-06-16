@@ -38,6 +38,11 @@ class ReferentialController extends Controller
         return view('admin.referential.metadata_dictionary');
     }
 
+    public function listDictionary()
+    {
+        return view('admin.referential.list_dictionary');
+    }
+
     public function details($referential)
     {
         return view('admin.referential.details');

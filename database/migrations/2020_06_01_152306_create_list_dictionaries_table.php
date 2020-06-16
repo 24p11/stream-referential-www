@@ -19,6 +19,7 @@ class CreateListDictionariesTable extends Migration
             $table->string('name')->nullable();
             $table->string('version')->nullable();
             $table->string('author')->nullable();
+            $table->text('description')->nullable();
             $table->date('start_date')->index();
             $table->date('end_date')->index()->nullable();
             $table->timestamp('created_at')->useCurrent()->index();

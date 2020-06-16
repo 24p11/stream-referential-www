@@ -13,6 +13,10 @@
            class="list-group-item list-group-item-action">
             Dictionnaire des variables
         </a>
+        <a href="{{ url('admin/list_dictionary', request('referential')) }}"
+           class="list-group-item list-group-item-action">
+            Dictionnaire des variables (listes)
+        </a>
         <a href="{{ url('admin/details', request('referential')) }}"
            class="list-group-item list-group-item-action">
             Détails
