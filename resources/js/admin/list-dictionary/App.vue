@@ -19,17 +19,17 @@
                     {{ listDictionary.name }}
                 </td>
                 <td>
-                    <AutoSaveInput :list-dictionary-id="listDictionary.id"
+                    <AutoSaveInput :id="listDictionary.id"
                                    :value="listDictionary.description"
                                    name="description"/>
                 </td>
                 <td>
-                    <AutoSaveInput :list-dictionary-id="listDictionary.id"
+                    <AutoSaveInput :id="listDictionary.id"
                                    :value="listDictionary.start_date"
                                    name="start_date"/>
                 </td>
                 <td>
-                    <AutoSaveInput :list-dictionary-id="listDictionary.id" :value="listDictionary.end_date"
+                    <AutoSaveInput :id="listDictionary.id" :value="listDictionary.end_date"
                                    name="end_date"/>
                 </td>
             </tr>
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-    import AutoSaveInput from './AutoSaveInput'
+    import AutoSaveInput from '../AutoSaveInput'
 
     const axios = require('axios');
     export default {

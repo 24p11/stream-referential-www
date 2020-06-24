@@ -1,5 +1,5 @@
 <template>
-    <input :metadata-dictionary-id="metadataDictionaryId"
+    <input :id="id"
            :value="value"
            @input="onInput"
            class="form-control form-control-sm"
@@ -12,7 +12,7 @@
 
     const axios = require("axios");
     export default {
-        props: ["name", "value", "metadataDictionaryId"],
+        props: ["name", "value", "id"],
         name: "AutoSaveInput",
         data() {
             return {
@@ -24,9 +24,9 @@
         },
         methods: {
             save() {
-                let metadataDictionaryEntry = {}
-                metadataDictionaryEntry[this.name] = this.inputValue
-                axios.put(`${baseApiUrl}/${this.metadataDictionaryId}`, metadataDictionaryEntry)
+                let entry = {};
+                entry[this.name] = this.inputValue;
+                axios.put(`${baseApiUrl}/${this.id}`, entry)
             },
             onInput(event) {
                 this.inputValue = event.target.value;

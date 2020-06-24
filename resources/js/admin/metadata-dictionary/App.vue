@@ -20,21 +20,21 @@
                     {{ metadataDictionary.metadata_name }}
                 </td>
                 <td>
-                    <AutoSaveInput :metadata-dictionary-id="metadataDictionary.id"
+                    <AutoSaveInput :id="metadataDictionary.id"
                                    :value="metadataDictionary.description"
                                    name="description"/>
                 </td>
                 <td>
-                    <AutoSaveInput :metadata-dictionary-id="metadataDictionary.id" :value="metadataDictionary.type"
+                    <AutoSaveInput :id="metadataDictionary.id" :value="metadataDictionary.type"
                                    name="type"/>
                 </td>
                 <td>
-                    <AutoSaveInput :metadata-dictionary-id="metadataDictionary.id"
+                    <AutoSaveInput :id="metadataDictionary.id"
                                    :value="metadataDictionary.start_date"
                                    name="start_date"/>
                 </td>
                 <td>
-                    <AutoSaveInput :metadata-dictionary-id="metadataDictionary.id" :value="metadataDictionary.end_date"
+                    <AutoSaveInput :id="metadataDictionary.id" :value="metadataDictionary.end_date"
                                    name="end_date"/>
                 </td>
             </tr>
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-    import AutoSaveInput from './AutoSaveInput'
+    import AutoSaveInput from '../AutoSaveInput'
 
     const axios = require('axios');
     export default {
