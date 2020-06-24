@@ -29,6 +29,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/manage/{referential}', 'Admin\ReferentialController@manage')->name('admin.manage');
     Route::match(['get', 'put'], '/edit/{referential}', 'Admin\ReferentialController@edit');
     Route::get('/metadata_dictionary/{referential}', 'Admin\ReferentialController@metadataDictionary');
+    Route::get('/list_dictionary/{referential}', 'Admin\ReferentialController@listDictionary');
     Route::get('/details/{referential}', 'Admin\ReferentialController@details');
 });
 

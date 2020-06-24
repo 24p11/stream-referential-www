@@ -6,35 +6,30 @@
                 <th scope="col">#</th>
                 <th scope="col">Variable</th>
                 <th scope="col">Déscription</th>
-                <th scope="col">Type</th>
                 <th scope="col">Date de début</th>
                 <th scope="col">Date de fin</th>
             </tr>
             </thead>
             <tbody>
-            <tr v-for="metadataDictionary in metadataDictionaries">
+            <tr v-for="listDictionary in listDictionaries">
                 <td><span
-                    class="badge badge-primary">{{metadataDictionary.vocabulary_id}}-{{metadataDictionary.id}}</span>
+                    class="badge badge-primary">{{listDictionary.vocabulary_id}}-{{listDictionary.id}}</span>
                 </td>
                 <td>
-                    {{ metadataDictionary.metadata_name }}
+                    {{ listDictionary.name }}
                 </td>
                 <td>
-                    <AutoSaveInput :id="metadataDictionary.id"
-                                   :value="metadataDictionary.description"
+                    <AutoSaveInput :id="listDictionary.id"
+                                   :value="listDictionary.description"
                                    name="description"/>
                 </td>
                 <td>
-                    <AutoSaveInput :id="metadataDictionary.id" :value="metadataDictionary.type"
-                                   name="type"/>
-                </td>
-                <td>
-                    <AutoSaveInput :id="metadataDictionary.id"
-                                   :value="metadataDictionary.start_date"
+                    <AutoSaveInput :id="listDictionary.id"
+                                   :value="listDictionary.start_date"
                                    name="start_date"/>
                 </td>
                 <td>
-                    <AutoSaveInput :id="metadataDictionary.id" :value="metadataDictionary.end_date"
+                    <AutoSaveInput :id="listDictionary.id" :value="listDictionary.end_date"
                                    name="end_date"/>
                 </td>
             </tr>
@@ -54,17 +49,17 @@
         data() {
             return {
                 referential: referential,
-                metadataDictionaries: []
+                listDictionaries: []
             }
         },
         created() {
             axios
                 .get(apiUrl)
-                .then(response => this.metadataDictionaries = response.data)
+                .then(response => this.listDictionaries = response.data)
         },
         computed: {
             hasVariables() {
-                return this.metadataDictionaries.length > 0
+                return this.listDictionaries.length > 0
             }
         },
         components: {

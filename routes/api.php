@@ -22,5 +22,10 @@ Route::prefix('v1')->group(function () {
     Route::get('/metadata_dictionary', 'Api\V1\MetadataDictionaryController@dictionaries');
     Route::get('/metadata_dictionary/{referential}', 'Api\V1\MetadataDictionaryController@dictionary');
     Route::put('/metadata_dictionary/{metadata_dictionary}', 'Api\V1\MetadataDictionaryController@update');
+
+    Route::get('/list_dictionary', 'Api\V1\ListDictionaryController@dictionaries');
+    Route::get('/list_dictionary/{referential}', 'Api\V1\ListDictionaryController@dictionary');
+    Route::put('/list_dictionary/{list_dictionary}', 'Api\V1\ListDictionaryController@update');
+
 });
 
