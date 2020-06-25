@@ -25,6 +25,7 @@ Route::prefix('admin')->group(function () {
     });
 
     Route::get('/list', 'Admin\ReferentialController@list')->name('admin.list');
+    Route::get('/log', 'Admin\LogController@log')->name('admin.log');
 
     Route::get('/manage/{referential}', 'Admin\ReferentialController@manage')->name('admin.manage');
     Route::match(['get', 'put'], '/edit/{referential}', 'Admin\ReferentialController@edit');
