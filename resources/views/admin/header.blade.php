@@ -10,6 +10,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('admin/list') }}">Gérer</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('admin/log') }}">Logs</a>
+            </li>
         </ul>
     </div>
 </nav>

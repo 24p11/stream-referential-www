@@ -18,3 +18,4 @@ yarn-error.log
 /public/img
 /*.env
 /public/mix-manifest.json
+/storage/api-docs
